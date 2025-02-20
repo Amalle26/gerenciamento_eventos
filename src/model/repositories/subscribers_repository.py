@@ -16,3 +16,15 @@ class SubscribersRepository:
             except Exception as exception:
                 db.session.rollback()
                 raise exception
+            
+    def select_subscriber(self, email: str, evento_id: int) -> Inscritos:
+        with DBConnectionHandler() as db:
+           data = (
+                db.session
+                .query(Inscritos)
+                .filter(
+                    Inscritos.email == email, 
+                    Inscritos.evento_id == evento_id)
+                .one_or_none()
+            )
+           return data 
